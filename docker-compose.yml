@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  marthalibraryapi:
+    container_name: marthalibraryapi
+    image: assurance/marthalibraryapi:1.0.0
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=db;Database=postgres;Username=postgres;Password=postgres"
+    depends_on:
+      - db
+    command: dotnet tool install --global dotnet-ef && dotnet ef database migrations add InitialMigration
+  
+  db:
+    container_name: db
+    image: postgres:12
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}
