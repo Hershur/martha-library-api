@@ -23,8 +23,15 @@ namespace Services.Impl {
         {
             var user =  await _context.Users.FindAsync(id);
 
-            if(user == null){
-                return null;
+            return user;
+        }
+        
+        public async Task<User?> GetUserByEmailAsync(string email)
+        {
+            var user = await _context.Users.Where(user => user.Email == email).FirstOrDefaultAsync();
+
+            if(user != null){
+                return user;
             }
 
             return user;
@@ -34,8 +41,14 @@ namespace Services.Impl {
         {
             try
             {
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
+                // check if user email already exists
+                var userExists = await GetUserByEmailAsync(user.Email);
+
+                if(userExists == null){
+                    _context.Users.Add(user);
+                    await _context.SaveChangesAsync();
+                }
+
                 return user;
             }
             catch (System.Exception)

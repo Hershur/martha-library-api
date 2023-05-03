@@ -6,5 +6,6 @@ namespace Services.Interfaces {
         Task<User?> GetUserByIdAsync(int id);
         Task<IEnumerable<User>> GetUsersAsync();
         Task<User?> AddUserAsync(User user); 
+        Task<User?> GetUserByEmailAsync(string email);
     }
 }

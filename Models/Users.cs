@@ -17,5 +17,8 @@ namespace Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("createdon")]
         public DateTime CreateOn { get; private set; }
+        
+        [NotMapped]
+        public ICollection<Book>? Books { get; }
     }
 }

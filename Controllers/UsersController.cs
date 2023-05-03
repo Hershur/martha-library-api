@@ -1,4 +1,4 @@
-using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Services.Interfaces;
@@ -6,6 +6,7 @@ using Shared;
 
 namespace martha_library_api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("/api/users")]
 public class UsersController : ControllerBase {
@@ -17,9 +18,10 @@ public class UsersController : ControllerBase {
         _userService = userService;
     }
 
+
     // GET: /api/users
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<User>>> GetUsersAsync ()
+    public async Task<ActionResult<IEnumerable<User>>> GetUsersAsync()
     {
         var result = await _userService.GetUsersAsync();
 
@@ -33,7 +35,7 @@ public class UsersController : ControllerBase {
 
     // GET: /api/users/2
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetUserByIdAsync (int id)
+    public async Task<IActionResult> GetUserByIdAsync(int id)
     {
         var userResult = await _userService.GetUserByIdAsync(id);
 
@@ -52,7 +54,7 @@ public class UsersController : ControllerBase {
         if(userAdded == null){
 
             return SharedUtils.CustomResult(StatusCodes.Status500InternalServerError, "An error occurred while creating user");
-        }
+        } 
         
         return  SharedUtils.CustomResult(StatusCodes.Status201Created, "User created successfully", userAdded);
     }
