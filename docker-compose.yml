@@ -13,7 +13,6 @@ services:
       AuthCredentials__Google__GoogleClientSecret: "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"
     depends_on:
       - db
-    command: dotnet tool update --global dotnet-ef
   
   db:
     container_name: db
@@ -26,7 +25,6 @@ services:
       POSTGRES_DB: postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./seed.sql:/docker-entrypoint-initdb.d/seed.sql
 
 volumes:
   pgdata: {}
